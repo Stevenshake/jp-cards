@@ -1,0 +1,201 @@
+:root {
+  --bg: #f9fafb;
+  --fg: #111827;
+  --muted: #6b7280;
+  --card-bg: #ffffff;
+  --border: #e5e7eb;
+  --yes: #16a34a;
+  --no: #dc2626;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #0f172a;
+    --fg: #f1f5f9;
+    --muted: #94a3b8;
+    --card-bg: #1e293b;
+    --border: #334155;
+  }
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body {
+  height: 100%;
+  background: var(--bg);
+  color: var(--fg);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI",
+               "Hiragino Sans", "Noto Sans JP", "Yu Gothic", Roboto, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -webkit-tap-highlight-color: transparent;
+  overscroll-behavior: none;
+}
+
+.screen {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  min-height: 100dvh;
+  padding: 20px;
+  padding-top: max(20px, env(safe-area-inset-top));
+  padding-bottom: max(20px, env(safe-area-inset-bottom));
+}
+
+.hidden { display: none !important; }
+
+header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 24px;
+  min-height: 40px;
+}
+
+h1 { font-size: 1.5rem; font-weight: 600; }
+
+/* --- Уроки --- */
+.lessons-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.lesson-btn {
+  display: block;
+  width: 100%;
+  padding: 20px;
+  background: var(--card-bg);
+  color: var(--fg);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  font-size: 1.1rem;
+  font-weight: 500;
+  text-align: left;
+  font-family: inherit;
+  cursor: pointer;
+  transition: transform 0.1s;
+}
+.lesson-btn:active { transform: scale(0.98); }
+
+.lesson-count {
+  display: block;
+  margin-top: 4px;
+  font-size: 0.85rem;
+  font-weight: 400;
+  color: var(--muted);
+}
+
+/* --- Сессия --- */
+.progress {
+  font-size: 0.95rem;
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.btn-text {
+  background: none;
+  border: none;
+  color: var(--fg);
+  font-size: 1rem;
+  font-family: inherit;
+  cursor: pointer;
+  padding: 8px;
+  margin-left: -8px;
+}
+
+.card-area {
+  flex: 1;
+  display: flex;
+  align-items: stretch;          /* растягиваем .card по высоте */
+  justify-content: center;
+  perspective: 1400px;
+  padding: 12px 0;
+  min-height: 0;                 /* иначе flex-контейнер не сжимается */
+}
+
+.card {
+  width: 100%;
+  max-width: 480px;
+  min-height: 360px;             /* страховка, если родитель почему-то схлопнется */
+  position: relative;
+  cursor: pointer;
+}
+
+.card-inner {
+  position: absolute;            /* ключевое: заполняет .card целиком */
+  inset: 0;
+  transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  transform-style: preserve-3d;
+}
+.card.flipped .card-inner { transform: rotateY(180deg); }
+
+.card-face {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 28px;
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  text-align: center;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.05);
+}
+.card-back { transform: rotateY(180deg); }
+
+.card-text {
+  font-size: clamp(2rem, 11vw, 3.6rem);
+  line-height: 1.25;
+  font-weight: 500;
+  word-break: break-word;
+}
+
+.card-back .card-text {
+  font-size: clamp(1.8rem, 8vw, 2.4rem);
+  font-weight: 500;
+}
+
+.card-reading {
+  margin-top: 18px;
+  font-size: clamp(1.15rem, 5vw, 1.4rem);
+  color: var(--muted);
+}
+
+/* --- Кнопки --- */
+.actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-top: 8px;
+}
+
+.btn {
+  padding: 18px;
+  border: none;
+  border-radius: 14px;
+  font-size: 1.05rem;
+  font-weight: 600;
+  font-family: inherit;
+  cursor: pointer;
+  color: #fff;
+  transition: transform 0.1s, opacity 0.15s;
+}
+.btn:active { transform: scale(0.97); opacity: 0.9; }
+
+.btn-yes { background: var(--yes); }
+.btn-no  { background: var(--no);  }
+
+/* --- Завершение --- */
+#done-screen {
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  gap: 14px;
+}
+#done-screen h2 { font-size: 1.6rem; font-weight: 600; }
+#done-screen p { color: var(--muted); font-size: 1.05rem; }
+#done-screen .btn { margin-top: 20px; padding: 16px 32px; }
